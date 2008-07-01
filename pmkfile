@@ -1,0 +1,25 @@
+SETTINGS {
+	LANG = "C++"
+	TARGET = ("Makefile.pmk","doxyfile.pmk","include/config.h.pmk")
+}
+
+DEFINE {
+        PACKAGE = "mocha"
+        VERSION = "0.1"
+        FULL_NAME = "$PACKAGE-$VERSION"
+}
+
+# check _Bool type
+CHECK_TYPE(type_bool_posix) {
+        REQUIRED = FALSE
+        NAME = "_Bool"
+}
+
+IF(!type_bool_posix) {
+        # check c++ bool type
+        CHECK_TYPE(type_bool_cxx) {
+                REQUIRED = FALSE
+                NAME = "bool"
+                LANG = "C++"
+        }
+}
