@@ -1,0 +1,37 @@
+CXX		:= @BIN_CXX@
+RM		:= rm -Rf
+TAGS	:= ctags
+DOXY	:= $(shell locate doxygen | head -1)
+CFLAGS	:= -W -Wall -O3 -I./include
+CFLAGS	+= @CFLAGS@
+OPTS	:= -O3 -g -ggdb -D_REENTRANT
+LIBS	:= -lobjc -lpthread -lm
+LDFLAGS	:= 
+TARGET	:= @PACKAGE@
+SOURCES	:= $(wildcard src/*.m)
+OBJECTS := $(SOURCES:.m=.o)
+BUILDS	:= Makefile doxyfile include/config.h pmk.log tags docs
+
+##############################################################################
+
+.PHONY: all docs tags clean dist_clean
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	@$(CXX) $(LDFLAGS) $(LIBS) $^ -o $@
+	
+%.m.o:
+	@$(CXX) $(CFLAGS) $(OPTS) $< -o $@
+
+tags: $(SOURCES)
+	@$(TAGS) $^
+
+clean:
+	@$(RM) $(OBJECTS) $(TARGET)
+
+dist_clean:
+	@$(RM) $(OBJECTS) $(TARGET) $(BUILDS)
+
+docs:
+	@$(DOXY) Doxyfile
