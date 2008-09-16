@@ -1,5 +1,5 @@
-CXX		:= @BIN_CXX@
-RM		:= rm -Rf
+CXX	:= @BIN_CXX@
+RM	:= rm -Rf
 TAGS	:= ctags
 DOXY	:= $(shell locate doxygen | head -1)
 CFLAGS	:= -W -Wall -O3 -I./include
@@ -10,7 +10,7 @@ LDFLAGS	:=
 TARGET	:= @PACKAGE@
 SOURCES	:= $(wildcard src/*.m)
 OBJECTS := $(SOURCES:.m=.o)
-BUILDS	:= Makefile doxyfile include/config.h pmk.log tags docs
+BUILDS	:= Makefile doxyfile include/config.h pmk.log tags docs config/deploy.rb
 
 ##############################################################################
 
@@ -22,7 +22,7 @@ $(TARGET): $(OBJECTS)
 	@$(CXX) $(LDFLAGS) $(LIBS) $^ -o $@
 	
 %.m.o:
-	@$(CXX) $(CFLAGS) $(OPTS) $< -o $@
+	@$(CXX) $(CFLAGS) $(OPTS) -c $< -o $@
 
 tags: $(SOURCES)
 	@$(TAGS) $^

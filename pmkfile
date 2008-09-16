@@ -1,12 +1,15 @@
 SETTINGS {
 	LANG = "C++"
-	TARGET = ("Makefile.pmk","doxyfile.pmk","include/config.h.pmk")
+	TARGET = ("Makefile.pmk","doxyfile.pmk","include/config.h.pmk","config/deploy.rb.pmk")
 }
 
 DEFINE {
         PACKAGE = "mocha"
         VERSION = "0.1"
         FULL_NAME = "$PACKAGE-$VERSION"
+        BUILD_USER = "denzuko"
+        BUILD_SERVER = "shell.computekindustries.com"
+        SCM_URL = "http://basecode.googlecode.com/svn/trunk/"
 }
 
 # check _Bool type
