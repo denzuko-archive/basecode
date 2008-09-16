@@ -1,0 +1,71 @@
+load 'deploy'
+
+# Build and Deploy servers
+role :app, "@BUILD_SERVER@"
+
+# Package Configuration Varibles
+set :webistrano_project, "@PACKAGE@"
+set :webistrano_stage, "development"
+
+set :application, "@PACKAGE@"
+
+# SCM(ie github/cvs/svn revision control system) Settings
+set :repository,  "@SCM_URL@"
+set :scm, "subversion"
+#set :scm_password, ""
+set :scm_username, ""
+set :branch, "trunk"
+set :deploy_via, :export
+set :deploy_to, "~/Developer/build/#{application}"
+
+# ssh+sudo server settings
+default_run_options[:pty] = true
+ssh_options[:compression] = "none"
+set :user, "@BUILD_USER@"
+#set :password, ""
+set :use_sudo, false
+#set :admin_runner, ""
+
+# Default Task Instructions
+# for deploying the application build we do nothing to restart, stop, and start
+# any kind of servers
+
+namespace :deploy do
+  task :restart, :roles => :app,  :except => {:no_release => true } do
+    #do nothing
+  end
+
+  task :start, :roles => :app,  :except => {:no_release => true } do
+    #do nothing
+  end
+
+  task :stop, :roles => :app,  :except => {:no_release => true } do
+    #do nothing
+  end
+  after :deloy, 'package:build'
+end
+
+namespace :package do
+  desc "Build from repository"
+  task :build, :roles => :app do
+    run "cd #{current_path} && pmk && make all"
+  end
+
+  desc "Generate Documentation from doxygen"
+  task :docs, :roles => :app do
+    run "cd #{current_path} && pmk && make docs"
+  end
+
+  task :rpm, :roles => :app do
+    # need to implement using koji
+    # after :rpm, 'package:deb'
+  end
+
+  task :deb, :roles => :app do
+    # need to implement using alien on the built rpm
+  end
+
+end
+
+# Custom Tasks
+##############
