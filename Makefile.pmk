@@ -34,4 +34,4 @@ dist_clean:
 	@$(RM) $(OBJECTS) $(TARGET) $(BUILDS)
 
 docs:
-	@$(DOXY) Doxyfile
+	@$(DOXY) doxyfile
