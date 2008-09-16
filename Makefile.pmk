@@ -20,8 +20,8 @@ all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
 	@$(CXX) $(LDFLAGS) $(LIBS) $^ -o $@
-	
-%.m.o:
+
+$(OBJECTS): %.o: %.m
 	@$(CXX) $(CFLAGS) $(OPTS) -c $< -o $@
 
 tags: $(SOURCES)
