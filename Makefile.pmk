@@ -1,4 +1,12 @@
-CXX	:= @BIN_CXX@
+DISTCC	:=
+ifeq ("@USE_CCACHE@","true")
+DISTCC	+= ccache
+endif
+ifeq ("@USE_DISTCC@", "true")
+DISTCC	+= distcc
+endif
+CC	:= $(DISTCC) @BIN_CC@
+CXX	:= $(DISTCC) @BIN_CXX@
 RM	:= rm -Rf
 TAGS	:= ctags
 DOXY	:= $(shell locate doxygen | head -1)
