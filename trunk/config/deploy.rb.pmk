@@ -20,7 +20,7 @@ set :deploy_to, "~/Developer/build/#{application}"
 
 # ssh+sudo server settings
 default_run_options[:pty] = true
-ssh_options[:compression] = "none"
+set :ssh_options, { :forward_agent => true, :compression => "none" }
 set :user, "@BUILD_USER@"
 #set :password, ""
 set :use_sudo, false
